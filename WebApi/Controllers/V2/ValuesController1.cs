@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V2
@@ -6,6 +7,7 @@ namespace WebApi.Controllers.V2
     [ApiVersion("2")]
     [Route("api/v{Version:ApiVersion}/[controller]")]
     [ApiController]
+    
     public class ValuesController1 : V1.ValuesController
     {
 

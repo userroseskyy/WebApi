@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,10 +9,21 @@ using System.Text;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+   
+    [ApiVersion("2")]
+    [Route("api/v{version:apiversion}[controller]")]
+    
     [ApiController]
+
+    
     public class AccountController : ControllerBase
     {
+        private readonly IConfiguration _config;
+        public AccountController(IConfiguration config)
+        {
+            _config = config;
+        }
+        [HttpPost]
         public IActionResult post(string username, string password)
         {
             if (true)
@@ -23,24 +35,25 @@ namespace WebApi.Controllers
 
                 };
 
-                string key = "3b07ba42-9b82-43d9-b9a1-4e5256a7cdb5";
+                string key = _config["JwtConfig:key"];
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
                 var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
 
 
                 var token = new JwtSecurityToken(
-                    issuer: "shop35.ir",
-                    audience: "shop35.ir",
-                    expires: DateTime.Now.AddMinutes(5),
+                    issuer: _config["JwtConfig:issuer"],
+                    audience: _config["JwtConfig:audience"],
+                    expires: DateTime.Now.AddMinutes(int.Parse(_config["JwtConfig:expires"])),
                     notBefore: DateTime.Now,
                     claims:claim,
                     signingCredentials:credentials
-                    );}
+                    );
 
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             return Ok(jwtToken);
+        }
         }
     }
 }

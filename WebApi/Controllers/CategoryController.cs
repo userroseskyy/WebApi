@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Entities;
 using WebApi.Servises;
@@ -6,9 +7,11 @@ using static WebApi.Servises.CategoryRepository;
 
 namespace WebApi.Controllers
 {
+    
    
-    [Route("api/v{Version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
+   [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly CategoryRepository _categoryRepository;
