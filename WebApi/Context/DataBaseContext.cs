@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApi.Entities;
+using WebApi.Model.Entities;
 
 namespace WebApi.Context
 {
@@ -11,6 +12,8 @@ namespace WebApi.Context
         }
        public DbSet<ToDo> ToDos { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserToken> UserToken { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
