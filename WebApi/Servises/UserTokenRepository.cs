@@ -18,7 +18,8 @@ namespace WebApi.Servises
                 TokenExp = userToken.TokenExp,
                 TokenHash = userToken.TokenHash,
                 User = userToken.User,
-                UserId = userToken.UserId
+                UserId = userToken.UserId,
+                MobileModel="A13"
                
             };
             _context.UserToken.Add(usersTo);

@@ -22,6 +22,9 @@ builder.Services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(c
 builder.Services.AddControllers();
 builder.Services.AddScoped<ToDoRepository, ToDoRepository>();
 builder.Services.AddScoped<CategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<UserRepository, UserRepository>();
+builder.Services.AddScoped<UserTokenRepository, UserTokenRepository>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultSignInScheme=JwtBearerDefaults.AuthenticationScheme;
@@ -78,17 +81,17 @@ configureOptions.SaveToken=true;
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title="Open API", Version="v1" });
-    //c.SwaggerDoc("v2", new OpenApiInfo { Title="Open API", Version="v2" });
-    //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "WebApi.xml"), true);
-    //c.DocInclusionPredicate((doc, apiDescription) =>
-    //{
-    //    if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+    c.SwaggerDoc("v2", new OpenApiInfo { Title="Open API", Version="v2" });
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "WebApi.xml"), true);
+    c.DocInclusionPredicate((doc, apiDescription) =>
+    {
+        if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
 
-    //    var version = methodInfo.DeclaringType
-    //    .GetCustomAttributes<ApiVersionAttribute>(true)
-    //    .SelectMany(attr => attr.Versions);
-    //    return version.Any(v => $"v{v.ToString()}"==doc);
-    //});
+        var version = methodInfo.DeclaringType
+        .GetCustomAttributes<ApiVersionAttribute>(true)
+        .SelectMany(attr => attr.Versions);
+        return version.Any(v => $"v{v.ToString()}"==doc);
+    });
 });
 
 
@@ -119,7 +122,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        //c.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
+        c.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
 
 
     });

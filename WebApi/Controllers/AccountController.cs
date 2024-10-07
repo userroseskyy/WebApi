@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using WebApi.Model.Entities;
+using WebApi.Model.Helper;
 using WebApi.Servises;
 
 namespace WebApi.Controllers
@@ -23,12 +24,15 @@ namespace WebApi.Controllers
         private readonly IConfiguration _config;
         private readonly UserRepository _userRepository;
         private readonly UserTokenRepository _userTokenRepository;
+    
 
+        SecurityHelper security=new SecurityHelper();
         public AccountController(IConfiguration config, UserRepository userRepository,UserTokenRepository userTokenRepository)
         {
             _config = config;
             _userRepository = userRepository;
             _userTokenRepository = userTokenRepository;
+           
         }
         [HttpPost]
         public IActionResult post(string username, string password)
@@ -64,12 +68,17 @@ namespace WebApi.Controllers
                 {
                     MobileModel="A13 SumSung",
                       TokenExp  = tokenExp,
-                      TokenHash=jwtToken,
+                      TokenHash=security.Getsha256Hash(jwtToken),
+                      User=user,
 
                 });
 
             return Ok(jwtToken);
         }
+            else
+            {
+                return Unauthorized() ;
+            }
         }
     }
 }
