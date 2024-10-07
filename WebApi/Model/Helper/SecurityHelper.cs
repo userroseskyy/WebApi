@@ -9,12 +9,18 @@ namespace WebApi.Model.Helper
 
         public string Getsha256Hash(string value)
         {
-            using (SHA256 sha256 = SHA256.Create()) 
-            {
-                var byteValue = Encoding.UTF8.GetBytes(value);
-                var byteHash = sha256.ComputeHash(byteValue);
-                return BitConverter.ToString(byteHash).Replace("-", "").ToLower(); 
-            }
+            var algoritm = SHA256.Create();
+            var byteValue = Encoding.UTF8.GetBytes(value);
+            var byteHash = algoritm.ComputeHash(byteValue);
+            return Convert.ToBase64String(byteHash);
+
+
+            //using (SHA256 sha256 = SHA256.Create()) 
+            //{
+            //    var byteValue = Encoding.UTF8.GetBytes(value);
+            //    var byteHash = sha256.ComputeHash(byteValue);
+            //    return BitConverter.ToString(byteHash).Replace("-", "").ToLower(); 
+            //}
             //using (SHA256 sha256 = SHA256.Create())
             //{
             //    var byteValue = Encoding.UTF8.GetBytes(value);
