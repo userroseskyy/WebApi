@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using WebApi.Context;
 using WebApi.Servises;
+using WebApi.Servises.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ToDoRepository, ToDoRepository>();
 builder.Services.AddScoped<CategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<UserRepository, UserRepository>();
 builder.Services.AddScoped<UserTokenRepository, UserTokenRepository>();
+builder.Services.AddScoped<ITokenValidate, TokenValidate>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -51,7 +53,8 @@ configureOptions.SaveToken=true;
         },
         OnTokenValidated=context =>
         {
-            return Task.CompletedTask;
+            var tokenValidatorService=context.HttpContext.RequestServices.GetRequiredService<ITokenValidate>();
+              return tokenValidatorService.Execute(context);
         },
         OnChallenge=context =>
         {

@@ -7,11 +7,12 @@ using static WebApi.Servises.CategoryRepository;
 
 namespace WebApi.Controllers
 {
-    
-   
-    [Route("api/[controller]")]
+
+    [ApiVersion("2")]
+    [Route("api/v{version:apiversion}[controller]")]
     [ApiController]
-   [Authorize]
+    [Authorize]
+   
     public class CategoryController : ControllerBase
     {
         private readonly CategoryRepository _categoryRepository;
