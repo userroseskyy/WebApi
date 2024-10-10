@@ -53,8 +53,9 @@ configureOptions.SaveToken=true;
         },
         OnTokenValidated=context =>
         {
-            var tokenValidatorService=context.HttpContext.RequestServices.GetRequiredService<ITokenValidate>();
-              return tokenValidatorService.Execute(context);
+            var tokenValidatorService = context.HttpContext.RequestServices.GetRequiredService<ITokenValidate>();
+            return tokenValidatorService.Execute(context);
+           
         },
         OnChallenge=context =>
         {

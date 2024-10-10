@@ -19,7 +19,7 @@ namespace WebApi.Servises.Validator
 
         {
             var claimsidentity = context.Principal.Identity as ClaimsIdentity;
-            if (claimsidentity.Claims==null|| claimsidentity.Claims.Any())
+            if (claimsidentity.Claims==null|| !claimsidentity.Claims.Any())
             {
                 context.Fail("Claims Not Found ...");
                 return;

@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
 
     [ApiVersion("2")]
-    [Route("api/v{version:apiversion}[controller]")]
+    [Route("api/v{version:apiversion}/[controller]")]
     [ApiController]
     [Authorize]
    
